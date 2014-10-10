@@ -14,7 +14,7 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import android.util.Base64;
 
 public class BaseTask<T,I>  {
-	protected String url="http://192.168.1.106";
+	protected String url="http://nca.mooo.com:8080";
 	protected String FILE_DIR="";
 	protected String URL_POURCHES="";
 	protected String URL_POURCHES_IMAGE="";
