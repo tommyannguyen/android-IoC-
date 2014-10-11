@@ -8,7 +8,7 @@
     <string name="title_activity_splash_screen">Hỗ trợ</string>
 
       <string-array name="nav_drawer_items">
-        <item >Home</item>
+        <item >Nhóm MBA Bách Khoa phụ trách</item>
         <item >Find People</item>
         <item >Photos</item>
         <item >Communities</item>

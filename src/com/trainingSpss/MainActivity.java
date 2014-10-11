@@ -13,6 +13,7 @@ import roboguice.activity.RoboFragmentActivity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -41,13 +42,16 @@ public class MainActivity extends RoboFragmentActivity {
 	private NavDrawerListAdapter adapter;
 	private Bundle _savedInstanceState = null;
 	private int categoryId = 0;
+	private ProgressDialog pDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		pDialog = ProgressDialog.show(this, "", "Đang tải dữ liệu", true,false);
 		_savedInstanceState = savedInstanceState;
 		Bundle ex=this.getIntent().getExtras();
-		if(ex !=null)
+		if(ex != null)
 		{
 			categoryId=  ex.getInt(DocumentActivity.HOME_DOCUMENT_TOKEN);
 		}
@@ -75,12 +79,8 @@ public class MainActivity extends RoboFragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
+		_documentService.SetLoadOnWeb(false);
 	}
-
-	/**
-	 * Slide menu item click listener
-	 * */
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -99,11 +99,9 @@ public class MainActivity extends RoboFragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// toggle nav drawer on selecting action bar app icon/title
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		// Handle action bar actions click
 		switch (item.getItemId()) {
 		case R.id.action_settings:
 			return true;
@@ -111,21 +109,12 @@ public class MainActivity extends RoboFragmentActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-	/* *
-	 * Called when invalidateOptionsMenu() is triggered
-	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// if nav drawer is opened, hide the action items
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
-
-	/**
-	 * Diplaying fragment view for selected nav drawer list item
-	 * */
 	private void displayView(int position,NavDrawerItem item) {
 		// update the main content by replacing fragments
 		android.support.v4.app.Fragment fragment = null;
@@ -150,7 +139,6 @@ public class MainActivity extends RoboFragmentActivity {
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			mDrawerList.setSelection(position);
 			if(navMenuTitles.length>position)
@@ -163,7 +151,7 @@ public class MainActivity extends RoboFragmentActivity {
 			}
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
-			Log.e("MainActivity", "Error in creating fragment");
+			
 		}
 	}
 
@@ -172,23 +160,15 @@ public class MainActivity extends RoboFragmentActivity {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
 	}
-
-	/**
-	 * When using the ActionBarDrawerToggle, you must call it during
-	 * onPostCreate() and onConfigurationChanged()...
-	 */
-
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
@@ -208,7 +188,7 @@ public class MainActivity extends RoboFragmentActivity {
 	    				for(Category c : result)
 	    				{
 	    				  titles.add(c.Name);
-	    				  navDrawerItems.add(new NavDrawerItem(c.Id,c.Name,navMenuIcons.getResourceId(0, -1), true,Integer.toString(c.CountDocuments)));
+	    				  navDrawerItems.add(new NavDrawerItem(c.Id,c.Name,navMenuIcons.getResourceId(4, -1), true,Integer.toString(c.CountDocuments)));
 	    				}
 	    				final String[] titlesArray = new String[titles.size()];
 	    				
@@ -238,6 +218,8 @@ public class MainActivity extends RoboFragmentActivity {
 	    		    	        			position++;
 	    		    	        		}
 	    		    	        	}
+	    		    	        	
+	    		    	        	 pDialog.dismiss();
 	    				    }
 	    				});
 	    				
@@ -245,7 +227,6 @@ public class MainActivity extends RoboFragmentActivity {
 	    			
 	    			@Override
 	    			public void onError(String error) {
-	    				// TODO Auto-generated method stub
 	    				
 	    			}
 	    		});

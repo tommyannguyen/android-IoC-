@@ -8,4 +8,5 @@ public interface IDocumentService {
 	void GetCategories(IBaseResult<List<Category>> result);
 	List<Document> GetDocumentsByCategoryId(int categoryId);
 	Document GetDocument(int id);
+	void SetLoadOnWeb(boolean value);
 }

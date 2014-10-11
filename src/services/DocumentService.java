@@ -31,7 +31,7 @@ public class DocumentService implements IDocumentService {
 	private final String password="";
 	private final CategoryRepository categoryRepository;
 	private final DocumentRepository documentRepository;
-	
+	private static boolean isLoadOnWeb = false;
 	
 	@Inject
 	public DocumentService(Provider<Context>context,Provider<ConnectivityManager>connectivityManager,CategoryRepository categoryRepository ,
@@ -53,9 +53,14 @@ public class DocumentService implements IDocumentService {
 		}
 		return false;
 	}
+	@Override 
+	public void SetLoadOnWeb(boolean value)
+	{
+		isLoadOnWeb = value;
+	}
 	@Override
 	public void GetCategories(final IBaseResult<List<Category>> resultDocuments) {
-		if(IsNetworkAvaiable())
+		if(IsNetworkAvaiable() && isLoadOnWeb)
 		{
 			CategoryTask headertask=new CategoryTask("logincode", "password", new IBaseResult<List<Category>>() {
 			@Override
