@@ -1,6 +1,5 @@
 package com.trainingSpss;
 
-import interfaces.DatabaseOperation;
 import roboguice.activity.RoboFragmentActivity;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,8 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.datalayer.DatabaseOperation;
 
 public class SettingsSize extends RoboFragmentActivity {
 

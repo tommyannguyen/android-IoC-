@@ -1,35 +1,32 @@
 package com.trainingSpss;
 
+import interfaces.DatabaseOperation;
 import interfaces.IDocumentService;
 
 import javax.inject.Inject;
 
 import models.Document;
 import roboguice.RoboGuice;
-import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectView;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.VideoView;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 public class DocumentActivity extends  YouTubeBaseActivity implements
 YouTubePlayer.OnInitializedListener  {
@@ -44,13 +41,25 @@ YouTubePlayer.OnInitializedListener  {
 	private Document document ;
 	private int documentId;
 
+	Context ctx = this;
+	
 	 @Override
 	protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_document);
 	        RoboGuice.getInjector(getApplicationContext()).injectMembers(this);
 	        
+			RadioGroup rdoG = (RadioGroup) findViewById(R.id.RGroup);
+	        
+	        DatabaseOperation DB = new DatabaseOperation(ctx);
+//	        WebView wv = (WebView) findViewById(R.id.wvDocument);
+//	    	WebSettings websets = wv.getSettings();
+	        Cursor c = DB.getInfo(DB);
+	        c.moveToFirst();
+//	  		websets.setDefaultFontSize(c.getInt(0));
+	        
 	        webview = (WebView)findViewById(R.id.wvDocument);
+	        
 	        youTubeView=(YouTubePlayerView)findViewById(R.id.youtube_view);
 	        scroll_view=(ScrollView)findViewById(R.id.document_scroll);
 	        
@@ -74,7 +83,7 @@ YouTubePlayer.OnInitializedListener  {
 	        settings.setDefaultTextEncodingName("utf-8");
 	        settings.setJavaScriptEnabled(true);
 	        settings.setPluginState(PluginState.ON);
-	        settings.setPluginsEnabled(true);
+//	        settings.setPluginsEnabled(true);
 	        settings.setJavaScriptCanOpenWindowsAutomatically(true);
 	        webview.setWebChromeClient(new WebChromeClient() {
 
@@ -93,7 +102,19 @@ YouTubePlayer.OnInitializedListener  {
 	            }
 	        });
 	        }
+	        webview.getSettings().setDefaultFontSize(c.getInt(0));
 	        
+	 }
+	 
+	 @Override
+	 public void onResume() {
+		 super.onResume();
+		 DatabaseOperation DB = new DatabaseOperation(ctx);
+		 WebView wv = (WebView) findViewById(R.id.wvDocument);
+		 WebSettings websets = wv.getSettings();
+		 Cursor c = DB.getInfo(DB);
+		 c.moveToFirst();
+		 websets.setDefaultFontSize(c.getInt(0));
 	 }
 	 @Override
      public boolean onKeyDown(int keyCode, KeyEvent event)  {

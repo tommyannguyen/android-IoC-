@@ -1,6 +1,7 @@
 package com.trainingSpss;
 import interfaces.IDocumentService;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,23 +9,21 @@ import javax.inject.Inject;
 
 import models.Category;
 import models.IBaseResult;
-import roboguice.activity.RoboActivity;
 import roboguice.activity.RoboFragmentActivity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.view.ViewConfiguration;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 public class MainActivity extends RoboFragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -48,10 +47,24 @@ public class MainActivity extends RoboFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		try {
+	      	  ViewConfiguration config = ViewConfiguration.get(this);
+	      	  Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+
+	      	  if (menuKeyField != null) {
+	      	    menuKeyField.setAccessible(true);
+	      	    menuKeyField.setBoolean(config, false);
+	      	  }
+	      	}
+		catch (Exception e) {
+	      	  // presumably, not relevant
+	  	}
+
 		pDialog = ProgressDialog.show(this, "", "Đang tải dữ liệu", true,false);
 		_savedInstanceState = savedInstanceState;
 		Bundle ex=this.getIntent().getExtras();
-		if(ex != null)
+		if(ex !=null)
 		{
 			categoryId=  ex.getInt(DocumentActivity.HOME_DOCUMENT_TOKEN);
 		}
@@ -79,8 +92,12 @@ public class MainActivity extends RoboFragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		_documentService.SetLoadOnWeb(false);
+		
 	}
+
+	/**
+	 * Slide menu item click listener
+	 * */
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -104,11 +121,18 @@ public class MainActivity extends RoboFragmentActivity {
 		}
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+			Intent itSetSize = new Intent(this, SettingsSize.class);
+	    	startActivity(itSetSize);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+
+	/* *
+	 * Called when invalidateOptionsMenu() is triggered
+	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
@@ -242,5 +266,7 @@ public class MainActivity extends RoboFragmentActivity {
 	    }
 
 }
+
+
 
 

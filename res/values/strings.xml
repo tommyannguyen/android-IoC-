@@ -6,16 +6,19 @@
     <string name="hello_world"></string>
     <string name="desc_list_item_icon">desc_list_item_icon</string>
     <string name="title_activity_splash_screen">Hỗ trợ</string>
+    <string name="font_size">Font size:</string>
+    <string name="btnSave">Lưu</string>
+    <string name="title_activity_settings_size">SettingsSize</string>
 
-      <string-array name="nav_drawer_items">
-        <item >Nhóm MBA Bách Khoa phụ trách</item>
-        <item >Find People</item>
-        <item >Photos</item>
-        <item >Communities</item>
-        <item >Pages</item>
-        <item >What\'s Hot</item>
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Find People</item>
+        <item>Photos</item>
+        <item>Communities</item>
+        <item>Pages</item>
+        <item>What\'s Hot</item>
     </string-array>
-    
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
@@ -26,5 +29,7 @@
         <item>@drawable/ic_pages</item>
         <item>@drawable/ic_whats_hot</item>
     </array>
-    
+
+    <string name="title_activity_settings_size">SettingsSize</string>
+
 </resources>
