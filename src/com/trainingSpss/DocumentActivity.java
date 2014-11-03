@@ -1,6 +1,5 @@
 package com.trainingSpss;
 
-import interfaces.DatabaseOperation;
 import interfaces.IDocumentService;
 
 import javax.inject.Inject;
@@ -22,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.VideoView;
 
+import com.datalayer.DatabaseOperation;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
