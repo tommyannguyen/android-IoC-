@@ -62,7 +62,7 @@ public class DocumentService implements IDocumentService {
 	public void GetCategories(final IBaseResult<List<Category>> resultDocuments) {
 		if(IsNetworkAvaiable() && isLoadOnWeb)
 		{
-			CategoryTask headertask=new CategoryTask("logincode", "password", new IBaseResult<List<Category>>() {
+			CategoryTask headertask = new CategoryTask("logincode", "password", new IBaseResult<List<Category>>() {
 			@Override
 			public void onSuccess(List<Category> result) {
 				UpdateCategories(result);
@@ -103,7 +103,7 @@ public class DocumentService implements IDocumentService {
 			}
 			else
 			{
-				if(dbCategory.UpdatedDate != category.UpdatedDate)
+				if(dbCategory.UpdatedDate.getTime() != category.UpdatedDate.getTime())
 				{
 					categoryRepository.update(category);
 				}
@@ -172,7 +172,7 @@ public class DocumentService implements IDocumentService {
 			}
 			else
 			{
-				if(dbDocument.UpdatedDate != document.UpdatedDate)
+				if(dbDocument.UpdatedDate.getTime() != document.UpdatedDate.getTime())
 				{
 					UpdateDocument(document,false);
 				}

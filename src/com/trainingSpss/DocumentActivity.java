@@ -37,7 +37,7 @@ YouTubePlayer.OnInitializedListener  {
 	private IDocumentService _documentService;
 	WebView webview;
 	YouTubePlayerView youTubeView;
-	private  YouTubePlayer _player;
+	private YouTubePlayer _player;
 	ScrollView scroll_view;
 	static private String VIDEO = "";
 	public static final String HOME_DOCUMENT_TOKEN = "DOCUMENTTOKEN";
@@ -86,7 +86,6 @@ YouTubePlayer.OnInitializedListener  {
 	                    if (frame.getFocusedChild() instanceof VideoView) {
 	                        VideoView video = (VideoView) frame.getFocusedChild();
 	                        frame.removeView(video);
-	                        video.start();
 	                    }
 	                }
 
@@ -125,7 +124,7 @@ YouTubePlayer.OnInitializedListener  {
 	public void onInitializationSuccess(Provider provider, YouTubePlayer player,
 			boolean arg2) {
 		_player = player;
-		player.loadVideo(VIDEO);
+		player.cueVideo(VIDEO);
 	}
 	 
 }

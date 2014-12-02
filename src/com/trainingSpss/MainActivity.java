@@ -50,7 +50,7 @@ public class MainActivity extends RoboFragmentActivity {
 		setContentView(R.layout.activity_main);
 		pDialog = ProgressDialog.show(this, "", "Đang tải dữ liệu", true,false);
 		_savedInstanceState = savedInstanceState;
-		Bundle ex=this.getIntent().getExtras();
+		Bundle ex = this.getIntent().getExtras();
 		if(ex != null)
 		{
 			categoryId=  ex.getInt(DocumentActivity.HOME_DOCUMENT_TOKEN);
@@ -79,7 +79,7 @@ public class MainActivity extends RoboFragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		_documentService.SetLoadOnWeb(false);
+		
 	}
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {
 		@Override
@@ -104,6 +104,7 @@ public class MainActivity extends RoboFragmentActivity {
 		}
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+			displayView(0,null);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -123,7 +124,7 @@ public class MainActivity extends RoboFragmentActivity {
 		{
 			switch (position) {
 			case 0:
-				fragment = new CategoryFragment(CategoryFragment.HOME_CATEGORY_ID);
+				fragment = new HomeFragment();
 				break;
 			default:
 				break;
@@ -181,7 +182,7 @@ public class MainActivity extends RoboFragmentActivity {
 	    			@Override
 	    			public void onSuccess(List<Category> result) {
 	    				final ArrayList<String> titles = new ArrayList<String>();
-	    				titles.add("Home");
+	    				titles.add("Hỗ trợ");
 	    				navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 	    				navDrawerItems = new ArrayList<NavDrawerItem>();
 	    				navDrawerItems.add(new NavDrawerItem(CategoryFragment.HOME_CATEGORY_ID,"Home",navMenuIcons.getResourceId(0, -1)));
@@ -195,6 +196,7 @@ public class MainActivity extends RoboFragmentActivity {
 	    				runOnUiThread(new Runnable() {
 	    				     @Override
 	    				     public void run() {
+	    				    	 _documentService.SetLoadOnWeb(false);
 	    				    	 navMenuTitles = (String[]) titles.toArray(titlesArray);
 	    		    				navMenuIcons.recycle();
 	    		    				
@@ -227,7 +229,7 @@ public class MainActivity extends RoboFragmentActivity {
 	    			
 	    			@Override
 	    			public void onError(String error) {
-	    				
+	    				_documentService.SetLoadOnWeb(false);
 	    			}
 	    		});
 	    		

@@ -86,7 +86,7 @@ public class DocumentRepository  implements IBaseRepository<Document> {
 			document.Title= cursor.getString(4);
 			document.YouTubeUrl = cursor.getString(5);
 			try {
-				document.UpdatedDate = df.parse(cursor.getString(3));
+				document.UpdatedDate = df.parse(cursor.getString(6));
 			} catch (ParseException e) {
 			}
 			cursor.close();
@@ -117,7 +117,7 @@ public class DocumentRepository  implements IBaseRepository<Document> {
 			document.Title= cursor.getString(4);
 			document.YouTubeUrl = cursor.getString(5);
 			try {
-				document.UpdatedDate = df.parse(cursor.getString(3));
+				document.UpdatedDate = df.parse(cursor.getString(6));
 			} catch (ParseException e) {
 			}
 			result.add(document);
@@ -128,7 +128,7 @@ public class DocumentRepository  implements IBaseRepository<Document> {
 	public int CountDocuments(int categoryId)
 	{
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select COUNT(*) from "+MedicDocument.TABLE_NAME+" where "+ MedicDocument.COLUMN_NAME_CATEGORYID+" = ?",new String[] {Integer.toString(categoryId)}); 
+		Cursor cursor = db.rawQuery("select COUNT(*) from "+ MedicDocument.TABLE_NAME+" where "+ MedicDocument.COLUMN_NAME_CATEGORYID+" = ?",new String[] {Integer.toString(categoryId)}); 
 		if(cursor.getCount()>0)
 		{
 			cursor.moveToNext();

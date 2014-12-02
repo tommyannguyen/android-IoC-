@@ -2,14 +2,13 @@ package com.trainingSpss;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import models.Document;
 import interfaces.IDocumentService;
 import roboguice.RoboGuice;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;

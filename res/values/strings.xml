@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Hỗ trợ</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Thông tin</string>
     <string name="hello_world"></string>
     <string name="desc_list_item_icon">desc_list_item_icon</string>
     <string name="title_activity_splash_screen">Hỗ trợ</string>
